@@ -1,22 +1,71 @@
-{% extends 'base.html' %} 
-{% load static %} 
+{% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/cars/car-detail.css' %}" />
-{% endblock %} 
+{% endblock %}
 {% block content %}
 <section class="car-container">
   <div class="car-img">
-    <img src="{% static 'images/car-icon.svg' %}" alt="A car icon" />
   </div>
   <div class="car-details">
     <h1>{{ car.make }} {{ car.model }}</h1>
-    <h2>{{ car.year }} {{ car.make }} {{ car.model }}</h2>
+    {% if car.year %}
+      <h2>{{ car.year }} {{ car.make }} {{ car.model }}</h2>
+    {% else %}
+      <h2>A {{ car.make }} car.</h2>
+    {% endif %}
     <p>{{ car.description }}</p>
-
+  
     <div class="car-actions">
       <a href="{% url 'car-update' car.id %}" class="btn warn">Edit</a>
       <a href="{% url 'car-delete' car.id %}" class="btn danger">Delete</a>
     </div>
   </div>
+  
 </section>
+<div class="services-container">
+  <section class="services">
+    <div class="subsection-title">
+      </div>
+
+    
+    <h2>Add a Service</h2>
+    <form
+      action="{% url 'add-service' car.id %}"
+      method="post"
+      class="subsection-content"
+      autocomplete="off"
+    >
+      {% csrf_token %}
+      {{ service_form.as_p }}
+      <button type="submit" class="btn submit">Add Service</button>
+    </form>
+
+    
+    <h2>Past Services</h2>
+    {% if car.service_set.all.count %}
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Service Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for Service in car.service_set.all %}
+          <tr>
+            <td>{{Service.date}}</td>
+            <td>{{Service.get_Service_type_display}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="subsection-content">
+        <p>⚠️ {{car.make}} {{car.model}} has not received any services!</p>
+      </div>
+    {% endif %}
+  </section>
+</div>
+
 {% endblock %}
