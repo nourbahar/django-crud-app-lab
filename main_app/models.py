@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 SERVICE_TYPES = (
     ('O', 'Oil Change'),
@@ -19,12 +20,16 @@ class Car(models.Model):
     model = models.CharField(max_length=100)
     year = models.IntegerField()
     description = models.TextField(max_length=250)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.make
 
     def get_absolute_url(self):
-        return reverse('car-detail', kwargs={'pk': self.id})
+        return reverse('car-detail', kwargs={'car_id': self.id})
+    
+    
+
 
 class Service(models.Model):
     date = models.DateField('Service date')

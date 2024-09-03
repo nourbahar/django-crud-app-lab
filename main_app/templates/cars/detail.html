@@ -40,7 +40,7 @@
       {{ service_form.as_p }}
       <button type="submit" class="btn submit">Add Service</button>
     </form>
-
+    
     
     <h2>Past Services</h2>
     {% if car.service_set.all.count %}
@@ -55,7 +55,7 @@
           {% for Service in car.service_set.all %}
           <tr>
             <td>{{Service.date}}</td>
-            <td>{{Service.get_Service_type_display}}</td>
+            <td>{{Service.get_service_type_display}}</td>
           </tr>
           {% endfor %}
         </tbody>

@@ -17,12 +17,24 @@
           <li><a href="{% url 'car-index' %}">All Cars</a></li>
           <li><a href="{% url 'car-create' %}">Add a Car</a></li>
           <li><a href="{% url 'about' %}">About</a></li>
+          {% if user.is_authenticated %}
+          <li>
+            <form action="{% url 'logout' %}" method="post" id="logout-form">
+              {% csrf_token %}
+              <button type="submit">Log out</button>
+            </form>
+          </li>
+          {% else %}
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'home' %}">Login</a></li>
+          <li><a href="{% url 'signup' %}">Sign up</a></li>
+          {% endif %}
         </ul>
       </nav>
     </header>
     <main>
      {% block content %} 
      {% endblock %}
-     </main>
+    </main>
   </body>
 </html>
