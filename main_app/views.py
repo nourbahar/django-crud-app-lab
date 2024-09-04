@@ -38,8 +38,8 @@ def car_index(request):
     cars = Car.objects.filter(user=request.user) 
     return render(request, 'cars/index.html', {'cars': cars})
 
-def home(request):
-    return render(request,'home.html')
+class Home(LoginView):
+    template_name = 'home.html'
 
 def about(request):
     return render(request, 'about.html')
@@ -62,10 +62,10 @@ class CarCreate(LoginRequiredMixin, CreateView):
     success_url = '/cars/'
 
 
-class CarUpdate(UpdateView):
+class CarUpdate(LoginRequiredMixin,UpdateView):
       model = Car
       fields = ['make', 'model', 'year', 'description']
 
-class CarDelete(DeleteView):
+class CarDelete(LoginRequiredMixin,DeleteView):
     model = Car
     success_url = '/cars/'    

@@ -16,7 +16,6 @@
         <ul>
           <li><a href="{% url 'car-index' %}">All Cars</a></li>
           <li><a href="{% url 'car-create' %}">Add a Car</a></li>
-          <li><a href="{% url 'about' %}">About</a></li>
           {% if user.is_authenticated %}
           <li>
             <form action="{% url 'logout' %}" method="post" id="logout-form">
